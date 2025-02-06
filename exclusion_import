@@ -16,7 +16,7 @@ Longitudes = df['Longitude'].values.tolist()
 Latitudes = df['Latitude'].values.tolist()
 
 f = open("./" + barrier_name + ".qbar","w")
-f.write('{"color":"#000000","name":"Ens barrières #1","points":[["","0","#000000","')
+f.write('{"color":"#000000","name":"' + barrier_name + '","points":[["","0","#000000","')
 
 
 for i in range(len(Longitudes)):

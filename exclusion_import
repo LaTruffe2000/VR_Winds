@@ -1,5 +1,4 @@
 import pandas as pd
-
 def conversion(old):
     direction = {'N':1, 'S':-1, 'E': 1, 'W':-1}
     new = old.replace(u'°',' ').replace('\'',' ').replace('"',' ')
@@ -8,20 +7,22 @@ def conversion(old):
     new.extend([0,0,0])
     return (float(new[0])+float(new[1])/60.0+float(new[2])/3600.0) * direction[new_dir]
 
-filename = "./zea.xlsx"
+barrier_name = "zea"
+filename = "./"+barrier_name+".xlsx"
 sheet = 0
 
 df = pd.read_excel(filename, sheet_name=sheet)
 Longitudes = df['Longitude'].values.tolist()
 Latitudes = df['Latitude'].values.tolist()
 
+f = open("./" + barrier_name + ".qbar","w")
+f.write('{"color":"#000000","name":"Ens barrières #1","points":[["","0","#000000","')
+
+
 for i in range(len(Longitudes)):
-    print (conversion(Longitudes[i]))
-    print (conversion(Latitudes[i]))
+    f.write (format(conversion(Latitudes[i])*1000,'.10f') + "/" + format(conversion(Longitudes[i])*1000,'.10f'))
+    if i < len(Longitudes)-1 :
+        f.write(";")
 
-
-print(conversion("42°30.00'S'"))
-
-#f = open("./zea.qbar","w")
-#f.write('</rte></gpx>')
-#f.close
+f.write('"]]}')
+f.close
